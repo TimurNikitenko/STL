@@ -1,10 +1,10 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main, develop ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 
 jobs:
   build-and-test:
@@ -17,16 +17,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential cmake libgtest-dev
-        
-    - name: Build Google Test
-      run: |
-        cd /usr/src/googletest
-        sudo cmake CMakeLists.txt
-        sudo make
-        sudo cp lib/*.a /usr/lib
-        sudo cp -r ../googletest/include/gtest /usr/include
-        sudo cp -r ../googlemock/include/gmock /usr/include
+        sudo apt-get install -y build-essential cmake libgtest-dev doxygen graphviz clang-format
         
     - name: Build project
       run: |
@@ -39,5 +30,11 @@ jobs:
         
     - name: Generate documentation
       run: |
-        sudo apt-get install -y doxygen
         make docs
+        
+    - name: Upload documentation artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: documentation
+        path: docs/
+        retention-days: 30
