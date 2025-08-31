@@ -1,0 +1,59 @@
+# Build artifacts
+skip_list_demo
+skip_list_tests
+*.o
+*.a
+*.so
+*.dylib
+
+# Documentation
+docs/
+*.html
+*.css
+
+*.js
+*.png
+*.gif
+*.jpg
+*.jpeg
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Backup files
+*.bak
+*.backup
+
+# Test results
+test_results.xml
+coverage.info
+*.gcov
+*.gcda
+*.gcno
+
+# Dependencies
+vendor/
+third_party/
+
+# Local configuration
+.env
+.env.local
+
+# Security - tokens and keys
+*_token*
+*_key*
+*.pem
+*.key
