@@ -1,0 +1,44 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libgtest-dev
+        
+    - name: Build Google Test
+      run: |
+        cd /usr/src/googletest
+        sudo g++ -std=c++17 -I. -c gtest/src/gtest-all.cc
+        sudo g++ -std=c++17 -I. -c gtest/src/gtest_main.cc
+        sudo ar -rv libgtest.a gtest-all.o
+        sudo ar -rv libgtest_main.a gtest_main.o
+        sudo cp libgtest.a libgtest_main.a /usr/lib
+        sudo cp -r gtest/include/gtest /usr/include
+        
+    - name: Build project
+      run: |
+        make clean
+        make all
+        
+    - name: Run tests
+      run: |
+        make test
+        
+    - name: Generate documentation
+      run: |
+        sudo apt-get install -y doxygen
+        make docs
