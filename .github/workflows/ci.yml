@@ -19,7 +19,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential cmake libgtest-dev doxygen graphviz clang-format
         
-    - name: Build project
+    - name: Build projectся ну
       run: |
         make clean
         make all
